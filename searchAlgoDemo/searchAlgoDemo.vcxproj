@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="astarSearch.cpp" />
+    <ClCompile Include="cellClass.cpp" />
+    <ClCompile Include="fieldClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menuOption.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -160,6 +162,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="astarSearch.h" />
+    <ClInclude Include="cellClass.h" />
+    <ClInclude Include="fieldClass.h" />
     <ClInclude Include="globalConstant.h" />
     <ClInclude Include="menuOption.h" />
     <ClInclude Include="Node.h" />

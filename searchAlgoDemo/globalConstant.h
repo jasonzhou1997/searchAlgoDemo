@@ -26,17 +26,15 @@ const int TOTAL_INPUT_ARG_COUNT = 1;
 //const int SCREEN_RESIZE = 4;
 // 
 //The size of the cell
-constexpr unsigned char CELL_SIZE = 16;
-//Number of columns
-constexpr unsigned char COLUMNS = 8;
+const int CELL_SIZE = 16;
+
 //Hmm, I think this is the duration of the effect. But I'm not sure
-constexpr unsigned char EFFECT_DURATION = 16;
+const int EFFECT_DURATION = 16;
 //Vertical size of the font
-constexpr unsigned char FONT_HEIGHT = 16;
+const int FONT_HEIGHT = 16;
 //Horizontal size of the font
-constexpr unsigned char FONT_WIDTH = 8;
-//Number of rows
-constexpr unsigned char ROWS = 8;
+const int FONT_WIDTH = 8;
+
 //Screen resize
-constexpr unsigned char SCREEN_RESIZE = 4;
+const int SCREEN_RESIZE = 4;
 #endif // !_GLOBALCONSTANT_H
