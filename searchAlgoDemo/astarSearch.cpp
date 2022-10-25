@@ -156,12 +156,12 @@ void astarSearch::findPath()
 {
 	std::cout << "goalX: " << goal->xCoord << " goalY: " << goal->yCoord << "\n";
 	Node* currNode = objPQ.pop();
-	while (currNode->xCoord != goal->xCoord && currNode->yCoord != goal->yCoord)
+	while (*currNode != *goal)
 	{
 		closedList.put(currNode);
 		expandNodeAstar(currNode);
 		currNode = objPQ.pop();
-		if (currNode == goal)
+		if (*currNode == *goal)
 		{
 			pathFound = true;
 		}
