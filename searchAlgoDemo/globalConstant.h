@@ -13,6 +13,11 @@ const int OBSTACLE_CELL_STATE = 1;
 const int START_CELL_STATE = 2;
 const int GOAL_CELL_STATE = 3;
 
+const int TEXTURE_COL_OBSTACLE = 0;
+const int TEXTURE_COL_START = 1;
+const int TEXTURE_COL_GOAL = 2;
+
+
 const int LAST_OPTION_NUM = 5;
 const int FIRST_OPTION_NUM = 1;
 

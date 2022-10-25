@@ -92,27 +92,26 @@ int main(int argc, char* argv[])
 				// without the event loop, window will become unresponsive
 				while (window.pollEvent(event))
 				{
-					switch (event.type)
-					{
-						case sf::Event::Closed:
+					int mode = OBSTACLE_CELL_STATE;
+					// check the type of the event
+						if (event.type == sf::Event::Closed)
 						{
 							window.close();
+							std::cout << "Window is closed" << "\n";
 							break;
 						}
-						case sf::Event::KeyReleased:
+						if (event.type == sf::Event::KeyReleased)
 						{
-							switch (event.key.code)
-							{
-							case sf::Keyboard::R:
+							if (event.key.code == sf::Keyboard::R)
 							{
 								myField.restartField();
 							}
-							case sf::Keyboard::A:
+							else if (event.key.code == sf::Keyboard::A)
 							{
 								myField.draw(window);
 								window.display();
 							}
-							case sf::Keyboard::S:
+							else if (event.key.code == sf::Keyboard::E)
 							{
 								std::string fileName;
 								std::cout << "Please enter the map Name :" << "\n";
@@ -121,11 +120,27 @@ int main(int argc, char* argv[])
 								window.close();
 								break;
 							}
-							break;
-							}
+
 						}
-						// mouseLeftClick allows converting the clicked cell into obstacle
-						case sf::Event::MouseButtonPressed:
+						if (event.type == sf::Event::KeyPressed)
+						{
+							if (event.key.code == sf::Keyboard::G)
+							{
+								mode = GOAL_CELL_STATE;
+								std::cout << "Mode == Goal State" << "\n";
+								window.pollEvent(event);
+								window.waitEvent(event);
+							}
+							else if (event.key.code == sf::Keyboard::S)
+							{
+								mode = START_CELL_STATE;
+								std::cout << "Mode == Start State" << "\n";
+								window.pollEvent(event);
+								window.waitEvent(event);
+							}
+
+						}
+						if (event.type == sf::Event::MouseButtonPressed)
 						{
 							if (event.mouseButton.button == sf::Mouse::Right)
 							{
@@ -135,12 +150,92 @@ int main(int argc, char* argv[])
 							}
 							else if (event.mouseButton.button == sf::Mouse::Left)
 							{
-								myField.markCellObstacle(mouseXPos, mouseYPos);
+								std::cout << "the left button was pressed" << std::endl;
+								if (mode == OBSTACLE_CELL_STATE)
+								{
+									myField.markCellObstacle(mouseXPos, mouseYPos);
+								}
+								else if (mode == START_CELL_STATE)
+								{
+									myField.markCellStart(mouseXPos, mouseYPos);
+								}
+								else if (mode == GOAL_CELL_STATE)
+								{
+									myField.markCellGoal(mouseXPos, mouseYPos);
+								}
 							}
-							break;
 						}
+						//// key released
+						//case sf::Event::KeyReleased:
+						//{
+						//	switch (event.key.code)
+						//	{
+						//	case sf::Keyboard::R:
+						//	{
+						//		myField.restartField();
+						//	}
+						//	case sf::Keyboard::A:
+						//	{
+						//		myField.draw(window);
+						//		window.display();
+						//	}
+						//	case sf::Keyboard::S:
+						//	{
+						//		std::string fileName;
+						//		std::cout << "Please enter the map Name :" << "\n";
+						//		std::cin >> fileName;
+						//		myField.saveMap(fileName + ".txt");
+						//		window.close();
+						//		break;
+						//	}
+						//	break;
+						//	}
+						//}
+						//case sf::Event::KeyPressed:
+						//{
+						//	switch (event.key.code)
+						//	{
+						//	case sf::Keyboard::G:
+						//	{
+						//		mode = GOAL_CELL_STATE;
+						//	}
+						//	case sf::Keyboard::B:
+						//	{
+						//		mode = START_CELL_STATE;
+						//	}
+
+						//	}
+						//	break;
+						//}
+						//// mouseLeftClick allows converting the clicked cell into obstacle
+						//case sf::Event::MouseButtonPressed:
+						//{
+						//	if (event.mouseButton.button == sf::Mouse::Right)
+						//	{
+						//		std::cout << "the right button was pressed" << std::endl;
+						//		std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+						//		std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+						//	}
+						//	else if (event.mouseButton.button == sf::Mouse::Left)
+						//	{
+						//		std::cout << "the left button was pressed" << std::endl;
+						//		if (mode == OBSTACLE_CELL_STATE)
+						//		{
+						//			myField.markCellObstacle(mouseXPos, mouseYPos);
+						//		}
+						//		else if (mode == START_CELL_STATE)
+						//		{
+						//			myField.markCellStart(mouseXPos, mouseYPos);
+						//		}
+						//		else if (mode == GOAL_CELL_STATE)
+						//		{
+						//			myField.markCellGoal(mouseXPos, mouseYPos);
+						//		}
+						//		
+						//	}
+						//	break;
+						//}
 					}
-				}
 				window.clear();
 				myField.draw(window);
 				window.display();

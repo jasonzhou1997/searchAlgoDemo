@@ -73,7 +73,7 @@ void fieldClass::draw(sf::RenderWindow& window)
 
 	sf::Sprite iconSprite;
 	sf::Texture iconTexture;
-	iconTexture.loadFromFile("obsStartEndIcon16.png");
+	iconTexture.loadFromFile("textureObsStartEndOpenClosed16.png");
 	iconSprite.setTexture(iconTexture);
 
 	for (unsigned int row = 0; row < cells.size(); row++)
@@ -88,20 +88,20 @@ void fieldClass::draw(sf::RenderWindow& window)
 			{
 				if (cells[row][col]->getIsObstacle())
 				{
-					textureColumn = 0;
+					textureColumn = TEXTURE_COL_OBSTACLE;
 				}
 				else if (cells[row][col]->getIsStart())
 				{
-					textureColumn = 1;
+					textureColumn = TEXTURE_COL_START;
 				}
 				else if (cells[row][col]->getIsGoal())
 				{
-					textureColumn = 2;
+					textureColumn = TEXTURE_COL_GOAL;
 				}
 				cellShape.setFillColor(sf::Color(146, 182, 255));
 				window.draw(cellShape);
 				iconSprite.setPosition(CELL_SIZE * row, CELL_SIZE * col);
-				std::cout << "Current textTure Column: " << textureColumn << "\n";
+				//std::cout << "Current textTure Column: " << textureColumn << "\n";
 				iconSprite.setTextureRect(sf::IntRect(CELL_SIZE * textureColumn, 0, CELL_SIZE, CELL_SIZE));
 				window.draw(iconSprite);
 			}
