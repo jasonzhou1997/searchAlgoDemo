@@ -1,6 +1,8 @@
 #pragma once
 #ifndef _cellClass_H
 #define _cellClass_H
+
+#include "globalConstant.h"
 class cellClass
 {
 private:
@@ -26,7 +28,7 @@ public:
 
 	void reset();
 
-	char getMouseState() const;
+	int getCellState() const;
 };
 #endif // !_cellClass_H
 

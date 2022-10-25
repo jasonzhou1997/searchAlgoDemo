@@ -6,6 +6,10 @@
 #include "globalConstant.h"
 #include <vector>
 #include <sfml/Graphics.hpp>
+#include <iostream> // for debugging output
+#include <fstream>
+#include <string>
+
 class fieldClass
 {
 public:
@@ -14,6 +18,10 @@ public:
 	~fieldClass();
 	void restartField();
 	void draw(sf::RenderWindow& window);
+	void markCellObstacle(int row, int col);
+	void markCellStart(int row, int col);
+	void markCellGoal(int row, int col);
+	void saveMap(std::string fileName);
 private:
 	std::vector<std::vector<cellClass*>> cells;
 	bool doneBuildingField;

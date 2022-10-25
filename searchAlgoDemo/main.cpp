@@ -1,6 +1,8 @@
 #include <sfml/Graphics.hpp>
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "globalConstant.h"
 #include "menuOption.h"
 #include "astarSearch.h"
@@ -26,7 +28,7 @@ int main(int argc, char* argv[])
 		{1, 0, 1, 0, 1, 0, 0, 0},
 		{3, 0, 0, 0, 1, 0, 0, 0}
 	};
-	std::cout << defaultMap.size() << defaultMap[0].size() << "\n";
+	//std::cout << defaultMap.size() << defaultMap[0].size() << "\n";
 	int userOption;
 	do
 	{
@@ -39,7 +41,8 @@ int main(int argc, char* argv[])
 		}
 		if (userOption == ASTAR_OPTION)
 		{
-			std::cout << "Astar Algorithm runs here" << "\n";
+			std::cout << "Astar Algorithm runs here: " << "\n";
+
 			astarSearch aStar(defaultMap);
 			aStar.findPath();
 			aStar.printPath();
@@ -96,6 +99,32 @@ int main(int argc, char* argv[])
 							window.close();
 							break;
 						}
+						case sf::Event::KeyReleased:
+						{
+							switch (event.key.code)
+							{
+							case sf::Keyboard::R:
+							{
+								myField.restartField();
+							}
+							case sf::Keyboard::A:
+							{
+								myField.draw(window);
+								window.display();
+							}
+							case sf::Keyboard::S:
+							{
+								std::string fileName;
+								std::cout << "Please enter the map Name :" << "\n";
+								std::cin >> fileName;
+								myField.saveMap(fileName + ".txt");
+								window.close();
+								break;
+							}
+							break;
+							}
+						}
+						// mouseLeftClick allows converting the clicked cell into obstacle
 						case sf::Event::MouseButtonPressed:
 						{
 							if (event.mouseButton.button == sf::Mouse::Right)
@@ -104,50 +133,18 @@ int main(int argc, char* argv[])
 								std::cout << "mouse x: " << event.mouseButton.x << std::endl;
 								std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 							}
-						}
-						case sf::Event::KeyReleased:
-						{
-							switch (event.key.code)
+							else if (event.mouseButton.button == sf::Mouse::Left)
 							{
-								case sf::Keyboard::R:
-								{
-									myField.restartField();
-								}
-								case sf::Keyboard::A:
-								{
-									myField.draw(window);
-									window.display();
-								}
+								myField.markCellObstacle(mouseXPos, mouseYPos);
 							}
 							break;
 						}
-						case sf::Event::MouseButtonReleased:
-						{
-							switch (event.mouseButton.button)
-							{
-								case sf::Mouse::Left:
-								{
-									std::cout << mouseXPos << " " << mouseYPos << " " << n << " " << m <<"\n";
-									break;
-								}
-							}
-						}
 					}
 				}
-
+				window.clear();
+				myField.draw(window);
+				window.display();
 			}
-
-
-			//// SFML window
-			//sf::RenderWindow window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_RESIZE, SCREEN_RESIZE * (FONT_HEIGHT + CELL_SIZE * COLUMNS)), "Minesweeper", sf::Style::Close);
-			////Here we're resizing the window
-			//window.setView(sf::View(sf::FloatRect(0.0, 0.0, CELL_SIZE * COLUMNS, FONT_HEIGHT + CELL_SIZE * ROWS)));
-
-			//while (window.isOpen())
-			//{
-
-			//}
-
 
 		}
 	} while (userOption != EXIT_PROGRAM_OPTION);
