@@ -58,7 +58,19 @@ void cellClass::reset()
 	isGoal = false;
 }
 
-char cellClass::getMouseState() const
+int cellClass::getCellState() const
 {
-	return mouseState;
+	if (getIsFree())
+	{
+		return FREE_CELL_STATE;
+	}
+	else if (getIsObstacle())
+	{
+		return OBSTACLE_CELL_STATE;
+	}
+	else if (getIsStart())
+	{
+		return START_CELL_STATE;
+	}
+	return GOAL_CELL_STATE;
 }

@@ -170,6 +170,11 @@
     <ClInclude Include="nodeList.h" />
     <ClInclude Include="priorityQueueClass.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\Downloads\obsStartEnd.png" />
+    <Image Include="..\..\obstacles.png" />
+    <Image Include="..\..\startEnd.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

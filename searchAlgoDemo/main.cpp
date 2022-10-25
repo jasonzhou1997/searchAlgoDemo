@@ -1,6 +1,8 @@
 #include <sfml/Graphics.hpp>
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "globalConstant.h"
 #include "menuOption.h"
 #include "astarSearch.h"
@@ -26,7 +28,7 @@ int main(int argc, char* argv[])
 		{1, 0, 1, 0, 1, 0, 0, 0},
 		{3, 0, 0, 0, 1, 0, 0, 0}
 	};
-	std::cout << defaultMap.size() << defaultMap[0].size() << "\n";
+	//std::cout << defaultMap.size() << defaultMap[0].size() << "\n";
 	int userOption;
 	do
 	{
@@ -39,7 +41,8 @@ int main(int argc, char* argv[])
 		}
 		if (userOption == ASTAR_OPTION)
 		{
-			std::cout << "Astar Algorithm runs here" << "\n";
+			std::cout << "Astar Algorithm runs here: " << "\n";
+
 			astarSearch aStar(defaultMap);
 			aStar.findPath();
 			aStar.printPath();
@@ -89,14 +92,55 @@ int main(int argc, char* argv[])
 				// without the event loop, window will become unresponsive
 				while (window.pollEvent(event))
 				{
-					switch (event.type)
-					{
-						case sf::Event::Closed:
+					int mode = OBSTACLE_CELL_STATE;
+					// check the type of the event
+						if (event.type == sf::Event::Closed)
 						{
 							window.close();
+							std::cout << "Window is closed" << "\n";
 							break;
 						}
-						case sf::Event::MouseButtonPressed:
+						if (event.type == sf::Event::KeyReleased)
+						{
+							if (event.key.code == sf::Keyboard::R)
+							{
+								myField.restartField();
+							}
+							else if (event.key.code == sf::Keyboard::A)
+							{
+								myField.draw(window);
+								window.display();
+							}
+							else if (event.key.code == sf::Keyboard::E)
+							{
+								std::string fileName;
+								std::cout << "Please enter the map Name :" << "\n";
+								std::cin >> fileName;
+								myField.saveMap(fileName + ".txt");
+								window.close();
+								break;
+							}
+
+						}
+						if (event.type == sf::Event::KeyPressed)
+						{
+							if (event.key.code == sf::Keyboard::G)
+							{
+								mode = GOAL_CELL_STATE;
+								std::cout << "Mode == Goal State" << "\n";
+								window.pollEvent(event);
+								window.waitEvent(event);
+							}
+							else if (event.key.code == sf::Keyboard::S)
+							{
+								mode = START_CELL_STATE;
+								std::cout << "Mode == Start State" << "\n";
+								window.pollEvent(event);
+								window.waitEvent(event);
+							}
+
+						}
+						if (event.type == sf::Event::MouseButtonPressed)
 						{
 							if (event.mouseButton.button == sf::Mouse::Right)
 							{
@@ -104,50 +148,98 @@ int main(int argc, char* argv[])
 								std::cout << "mouse x: " << event.mouseButton.x << std::endl;
 								std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 							}
-						}
-						case sf::Event::KeyReleased:
-						{
-							switch (event.key.code)
+							else if (event.mouseButton.button == sf::Mouse::Left)
 							{
-								case sf::Keyboard::R:
+								std::cout << "the left button was pressed" << std::endl;
+								if (mode == OBSTACLE_CELL_STATE)
 								{
-									myField.restartField();
+									myField.markCellObstacle(mouseXPos, mouseYPos);
 								}
-								case sf::Keyboard::A:
+								else if (mode == START_CELL_STATE)
 								{
-									myField.draw(window);
-									window.display();
+									myField.markCellStart(mouseXPos, mouseYPos);
 								}
-							}
-							break;
-						}
-						case sf::Event::MouseButtonReleased:
-						{
-							switch (event.mouseButton.button)
-							{
-								case sf::Mouse::Left:
+								else if (mode == GOAL_CELL_STATE)
 								{
-									std::cout << mouseXPos << " " << mouseYPos << " " << n << " " << m <<"\n";
-									break;
+									myField.markCellGoal(mouseXPos, mouseYPos);
 								}
 							}
 						}
+						//// key released
+						//case sf::Event::KeyReleased:
+						//{
+						//	switch (event.key.code)
+						//	{
+						//	case sf::Keyboard::R:
+						//	{
+						//		myField.restartField();
+						//	}
+						//	case sf::Keyboard::A:
+						//	{
+						//		myField.draw(window);
+						//		window.display();
+						//	}
+						//	case sf::Keyboard::S:
+						//	{
+						//		std::string fileName;
+						//		std::cout << "Please enter the map Name :" << "\n";
+						//		std::cin >> fileName;
+						//		myField.saveMap(fileName + ".txt");
+						//		window.close();
+						//		break;
+						//	}
+						//	break;
+						//	}
+						//}
+						//case sf::Event::KeyPressed:
+						//{
+						//	switch (event.key.code)
+						//	{
+						//	case sf::Keyboard::G:
+						//	{
+						//		mode = GOAL_CELL_STATE;
+						//	}
+						//	case sf::Keyboard::B:
+						//	{
+						//		mode = START_CELL_STATE;
+						//	}
+
+						//	}
+						//	break;
+						//}
+						//// mouseLeftClick allows converting the clicked cell into obstacle
+						//case sf::Event::MouseButtonPressed:
+						//{
+						//	if (event.mouseButton.button == sf::Mouse::Right)
+						//	{
+						//		std::cout << "the right button was pressed" << std::endl;
+						//		std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+						//		std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+						//	}
+						//	else if (event.mouseButton.button == sf::Mouse::Left)
+						//	{
+						//		std::cout << "the left button was pressed" << std::endl;
+						//		if (mode == OBSTACLE_CELL_STATE)
+						//		{
+						//			myField.markCellObstacle(mouseXPos, mouseYPos);
+						//		}
+						//		else if (mode == START_CELL_STATE)
+						//		{
+						//			myField.markCellStart(mouseXPos, mouseYPos);
+						//		}
+						//		else if (mode == GOAL_CELL_STATE)
+						//		{
+						//			myField.markCellGoal(mouseXPos, mouseYPos);
+						//		}
+						//		
+						//	}
+						//	break;
+						//}
 					}
-				}
-
+				window.clear();
+				myField.draw(window);
+				window.display();
 			}
-
-
-			//// SFML window
-			//sf::RenderWindow window(sf::VideoMode(CELL_SIZE * COLUMNS * SCREEN_RESIZE, SCREEN_RESIZE * (FONT_HEIGHT + CELL_SIZE * COLUMNS)), "Minesweeper", sf::Style::Close);
-			////Here we're resizing the window
-			//window.setView(sf::View(sf::FloatRect(0.0, 0.0, CELL_SIZE * COLUMNS, FONT_HEIGHT + CELL_SIZE * ROWS)));
-
-			//while (window.isOpen())
-			//{
-
-			//}
-
 
 		}
 	} while (userOption != EXIT_PROGRAM_OPTION);

@@ -8,6 +8,16 @@ const int ASTAR_OPTION = 3;
 const int MAKE_MAP_OPTION = 4;
 const int EXIT_PROGRAM_OPTION = 5;
 
+const int FREE_CELL_STATE = 0;
+const int OBSTACLE_CELL_STATE = 1;
+const int START_CELL_STATE = 2;
+const int GOAL_CELL_STATE = 3;
+
+const int TEXTURE_COL_OBSTACLE = 0;
+const int TEXTURE_COL_START = 1;
+const int TEXTURE_COL_GOAL = 2;
+
+
 const int LAST_OPTION_NUM = 5;
 const int FIRST_OPTION_NUM = 1;
 
