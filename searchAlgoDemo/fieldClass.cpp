@@ -30,6 +30,7 @@ void fieldClass::restartField()
 	{
 		for (unsigned int col = 0; col < cells[0].size(); col++)
 		{
+			// set the cell into free state
 			cells[row][col]->reset();
 		}
 	}
